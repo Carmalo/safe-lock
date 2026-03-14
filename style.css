@@ -1,0 +1,298 @@
+:root {
+    --bg-color: #0c0d10;
+    --panel-bg: rgba(22, 24, 29, 0.7);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #f0f0f0;
+    --text-secondary: #8a8d98;
+    --accent: #3b82f6;
+    --accent-glow: rgba(59, 130, 246, 0.5);
+    --error: #ef4444;
+    --error-glow: rgba(239, 68, 68, 0.5);
+    --success: #10b981;
+    --success-glow: rgba(16, 185, 129, 0.5);
+    --key-bg: rgba(255, 255, 255, 0.03);
+    --key-hover: rgba(255, 255, 255, 0.08);
+    --key-active: rgba(255, 255, 255, 0.12);
+    --display-bg: rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Background Effects */
+.background-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+}
+
+.glow-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(0,0,0,0) 70%);
+    top: -100px;
+    left: -100px;
+}
+
+.glow-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(0,0,0,0) 70%);
+    bottom: -150px;
+    right: -150px;
+}
+
+/* Main Container */
+.safe-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    perspective: 1000px;
+}
+
+.safe-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--panel-border);
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.safe-panel.error {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.safe-panel.success {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.2), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    transform: scale(1.02);
+}
+
+/* Header */
+.safe-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.safe-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.safe-header p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Display */
+.display-container {
+    background: var(--display-bg);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.display-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.status-light {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--error);
+    box-shadow: 0 0 8px var(--error-glow);
+    transition: all 0.3s ease;
+}
+
+.status-light.success-state {
+    background-color: var(--success);
+    box-shadow: 0 0 12px var(--success-glow);
+}
+
+#status-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--error);
+    transition: color 0.3s ease;
+}
+
+#status-text.success-state {
+    color: var(--success);
+}
+
+.code-display {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.digit {
+    width: 40px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    position: relative;
+}
+
+.digit.empty {
+    color: var(--text-secondary);
+    opacity: 0.3;
+}
+
+/* Keypad */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.key {
+    background: var(--key-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.key:hover {
+    background: var(--key-hover);
+    transform: translateY(-2px);
+}
+
+.key:active {
+    background: var(--key-active);
+    transform: translateY(1px);
+}
+
+.key.action {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+}
+
+.key.action:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+}
+
+.key.action.enter {
+    color: var(--accent);
+}
+
+.key.action.enter:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* Animations */
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+@keyframes unlock {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(0.9); opacity: 0; }
+}
+
+.unlocking {
+    animation: unlock 0.8s ease forwards;
+}
+
+/* iPad and Tablet Adjustments */
+@media (min-width: 768px) {
+    .safe-wrapper {
+        max-width: 500px;
+    }
+    
+    .safe-panel {
+        padding: 48px;
+    }
+    
+    .key {
+        height: 72px;
+        font-size: 1.75rem;
+    }
+    
+    .digit {
+        width: 48px;
+        font-size: 3rem;
+    }
+}
